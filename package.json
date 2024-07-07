@@ -4,7 +4,10 @@
   "description": "Chat",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/build",
+    "postinstall": "cd frontend && npm ci"
   },
   "repository": {
     "type": "git",
@@ -18,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/ajsen/frontend-project-12/issues"
   },
-  "homepage": "https://github.com/ajsen/frontend-project-12#readme"
+  "homepage": "https://github.com/ajsen/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.3"
+  }
 }
