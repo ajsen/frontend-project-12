@@ -1,24 +1,26 @@
-import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Button } from 'react-bootstrap';
 
-import { logout, selectIsLoggedIn } from '../../slices/authSlice';
+import { logout, selectCurrentUsername } from '../../slices/authSlice';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logout());
   };
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);;
+  const currentUsername = useSelector(selectCurrentUsername);
 
-  if (!isLoggedIn) {
+  if (!currentUsername) {
     return null;
   }
 
   return (
     <Button onClick={handleLogout}>
-      Выйти
+      {t('logout')}
     </Button>
   );
 };
