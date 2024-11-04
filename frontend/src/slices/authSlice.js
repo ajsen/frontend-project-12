@@ -1,35 +1,53 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { isAxiosError } from 'axios';
 
-import apiPaths from '../api/paths';
+import apiPaths from '../api/apiPaths';
 import axiosInstance from '../utils/axiosInstance';
+import transformErrorResponse from '../utils/transformErrorResponse';
 import { startListening } from './listenerMiddleware';
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async ({ username, password }, { rejectWithValue }) => {
+const handleNetworkError = (error, rejectWithValue) => {
+  if (!isAxiosError(error)) {
+    throw error;
+  }
+
+  return rejectWithValue(transformErrorResponse({
+    status: error.response?.status ?? null,
+    code: error.code ?? null,
+  }));
+};
+
+export const signup = createAsyncThunk(
+  'auth/signup',
+  async (credentials, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(apiPaths.login(), { username, password });
+      const { data } = await axiosInstance.post(apiPaths.signup(), credentials);
       return data;
     } catch (error) {
-      return error.response
-        ? rejectWithValue(error.response.status)
-        : rejectWithValue(error.code);
+      return handleNetworkError(error, rejectWithValue);
     }
   },
 );
 
-const getCredentials = () => {
-  const credentials = localStorage.getItem('credentials');
-  return credentials ? JSON.parse(credentials) : {};
-};
+export const login = createAsyncThunk(
+  'auth/login',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.post(apiPaths.login(), credentials);
+      return data;
+    } catch (error) {
+      return handleNetworkError(error, rejectWithValue);
+    }
+  },
+);
 
-const credentials = getCredentials();
+const userAuthData = JSON.parse(localStorage.getItem('userAuthData'));
 
-const isLoggedIn = Boolean(credentials.username && credentials.token);
+const isLoggedIn = Boolean(userAuthData?.username && userAuthData?.token);
 
 const initialState = {
-  username: isLoggedIn ? credentials.username : null,
-  isLoggedIn,
+  username: isLoggedIn ? userAuthData.username : null,
+  loadingStatus: 'idle',
   authError: null,
 };
 
@@ -39,20 +57,35 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.username = null;
-      state.isLoggedIn = false;
+      state.loadingStatus = 'idle';
+      state.authError = null;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.authError = null;
+        state.loadingStatus = 'loading';
       })
       .addCase(login.fulfilled, (state, { payload: { username } }) => {
         state.username = username;
-        state.isLoggedIn = true;
+        state.loadingStatus = 'loaded';
       })
       .addCase(login.rejected, (state, { payload }) => {
         state.authError = payload;
+        state.loadingStatus = 'failed';
+      })
+      .addCase(signup.pending, (state) => {
+        state.authError = null;
+        state.loadingStatus = 'loading';
+      })
+      .addCase(signup.fulfilled, (state, { payload: { username } }) => {
+        state.username = username;
+        state.loadingStatus = 'loaded';
+      })
+      .addCase(signup.rejected, (state, { payload }) => {
+        state.authError = payload;
+        state.loadingStatus = 'failed';
       });
   },
 });
@@ -61,20 +94,27 @@ export default authSlice.reducer;
 
 export const { logout } = authSlice.actions;
 
+export const selectCurrentUsername = (state) => state.auth.username;
+export const selectLoadingStatus = (state) => state.auth.loadingStatus;
+export const selectAuthError = (state) => state.auth.authError;
+
 startListening({
   actionCreator: logout,
   effect: () => {
-    localStorage.clear();
+    localStorage.removeItem('userAuthData');
   },
 });
 
 startListening({
   actionCreator: login.fulfilled,
   effect: ({ payload }) => {
-    localStorage.setItem('credentials', JSON.stringify(payload));
+    localStorage.setItem('userAuthData', JSON.stringify(payload));
   },
 });
 
-export const selectCurrentUsername = (state) => state.auth.username;
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectAuthError = (state) => state.auth.authError;
+startListening({
+  actionCreator: signup.fulfilled,
+  effect: ({ payload }) => {
+    localStorage.setItem('userAuthData', JSON.stringify(payload));
+  },
+});
