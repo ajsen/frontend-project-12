@@ -1,32 +1,58 @@
 const ru = {
   translation: {
-    messagesHeader: {
-      messagesCount_zero: '{{count}} сообщений',
-      messagesCount_one: '{{count}} сообщение',
-      messagesCount_few: '{{count}} сообщения',
-      messagesCount_many: '{{count}} сообщений',
-      messagesCount_other: '{{count}} сообщений',
+    messagesCount: {
+      messages_zero: '{{count}} сообщений',
+      messages_one: '{{count}} сообщение',
+      messages_few: '{{count}} сообщения',
+      messages_many: '{{count}} сообщений',
     },
-    loginPage: {
-      footer: {
-        registration: 'Регистрация',
-        doNotHaveAnAccount: 'Нет аккаунта?',
-      },
+    feedbackMessages: {
+      requiredField: 'Обязательное поле',
+      fieldMustBeFilled: 'Поле должно быть заполнено',
+      mustBeUnique: 'Должно быть уникальным',
+      incorrectUsernameOrPassword: 'Неверные имя пользователя или пароль',
+      usernameTaken: 'Такой пользователь уже существует',
+      connectionTimeout: 'Превышено время ожидания запроса',
+      networkError: 'Ошибка сети',
+      unknownError: 'Неизвестная ошибка',
     },
-    modal: {
-      removeChannelDialog: {
-        title: 'Удалить канал',
-        removeButton: 'Удалить',
-        removeQuestion: 'Удалить?',
-      },
-      editChannelForm: {
-        title: 'Переименовать канал',
-      },
-      addChannelForm: {
-        title: 'Добавить канал',
-      },
-      cancelButton: 'Отменить',
+    toastMessages: {
+      channelCreated: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelRemoved: 'Канал удалён',
+      loadingError: 'Произошла ошибка во время загрузки данных с сервера',
     },
+    common: {
+      usernameRequiredLength: 'От 3 до 20 символов',
+      passwordRequiredLength: 'От 6 до 20 символов',
+      passwordsMustBeEqual: 'Пароли должны совпадать',
+    },
+    addChannel: 'Добавить канал',
+    atLeastSixSymbols: 'Не менее 6 символов',
+    butYouCanFollow: 'Но вы можете перейти',
+    cancel: 'Отменить',
+    channels: 'Каналы',
+    confirmPassword: 'Подтвердите пароль',
+    channelName: 'Имя канала',
+    enterMessage: 'Введите сообщение',
+    send: 'Отправить',
+    login: 'Войти',
+    logout: 'Выйти',
+    loading: 'Загрузка',
+    yourNickname: 'Ваш ник',
+    username: 'Имя пользователя',
+    password: 'Пароль',
+    signup: 'Зарегистрироваться',
+    remove: 'Удалить',
+    rename: 'Переименовать',
+    newMessage: 'Новое сообщение',
+    pageNotFound: 'Страница не найдена',
+    noAccount: 'Нет аккаунта',
+    registration: 'Регистрация',
+    renameChannel: 'Переименовать канал',
+    removeChannel: 'Удалить канал',
+    toMainPage: 'На главную страницу',
+    hexletChat: 'Hexlet Chat',
   },
 };
 
