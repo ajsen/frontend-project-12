@@ -1,7 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/ajsen/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ajsen/frontend-project-12/actions)
-
-\* repository as a zip file.
+[![Maintainability](https://api.codeclimate.com/v1/badges/7aa5757735be8815ce6a/maintainability)](https://codeclimate.com/github/ajsen/frontend-project-12/maintainability)
 
 ### Installation and launch:
 
