@@ -28,10 +28,7 @@ const defaultValidationMessages = {
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
   environment: 'production',
-  enabled: !isDevelopment,
 };
 
 const init = async () => {
