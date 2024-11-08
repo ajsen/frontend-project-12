@@ -18,4 +18,4 @@ develop:
 
 build:
 	rm -rf frontend/build
-	npm run build
+	npm run build:deploy
