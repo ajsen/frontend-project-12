@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
@@ -9,24 +8,17 @@ import { useDeleteChannelMutation } from '../../../slices/channelsSlice';
 import { selectChannelWithActionId } from '../../../slices/selectors';
 
 const RemoveChannelDialog = () => {
-  const [deleteChannel, {
-    isLoading,
-    isSuccess,
-  }] = useDeleteChannelMutation();
   const channelWithActionId = useSelector(selectChannelWithActionId);
   const { hideModal } = useModal();
   const { t } = useTranslation();
+  const [deleteChannel, { isLoading }] = useDeleteChannelMutation();
 
-  useEffect(() => {
-    if (isSuccess) {
+  const handleRemoveChannel = async () => {
+    try {
+      await deleteChannel(channelWithActionId);
       hideModal();
       toast.success(t('toastMessages.channelRemoved'));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess]);
-
-  const handleRemoveChannel = () => {
-    deleteChannel(channelWithActionId);
+    } catch (error) { }
   };
 
   return (
