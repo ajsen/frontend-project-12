@@ -36,6 +36,7 @@ const ru = {
     channels: 'Каналы',
     confirmPassword: 'Подтвердите пароль',
     channelName: 'Имя канала',
+    channelManagement: 'Управление каналом',
     enterMessage: 'Введите сообщение',
     send: 'Отправить',
     login: 'Войти',

@@ -36,7 +36,11 @@ const ChannelButtonWithAction = ({ id, name }) => {
         split
         variant={buttonVariant}
         className="rounded-0"
-      />
+      >
+        <span className="visually-hidden">
+          {t('channelManagement')}
+        </span>
+      </Dropdown.Toggle>
       <Dropdown.Menu>
         <Dropdown.Item
           onClick={showModal}
