@@ -19,18 +19,17 @@ const NewChannelForm = () => {
   }, []);
 
   const channelNames = useSelector(selectChannelNames);
-
-  const [createChannel] = useCreateChannelMutation();
   const { removeProfanity } = useProfanityFilter();
   const { hideModal } = useModal();
   const { t } = useTranslation();
+  const [createChannel] = useCreateChannelMutation();
 
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: modalFormValidationSchema(channelNames),
-    onSubmit: ({ name }, { resetForm, setFieldError }) => {
+    onSubmit: async ({ name }, { resetForm, setFieldError }) => {
       try {
-        createChannel({ name: removeProfanity(name) }).unwrap();
+        await createChannel({ name: removeProfanity(name) }).unwrap();
         resetForm();
         hideModal();
         toast.success(t('toastMessages.channelCreated'));
