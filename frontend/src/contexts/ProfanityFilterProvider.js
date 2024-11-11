@@ -11,7 +11,8 @@ export const useProfanityFilter = () => useContext(ProfanityFilterContext);
 const ProfanityFilterProvider = ({ children }) => {
   const currentLng = useSelector(selectCurrentLng);
 
-  filter.loadDictionary(currentLng);
+  const currentLngDict = filter.getDictionary(currentLng);
+  filter.add(currentLngDict);
 
   const removeProfanity = useCallback((text) => filter.clean(text), []);
 
