@@ -43,3 +43,10 @@ export const selectCurrentChannelMessages = createSelector(
     messages?.filter(({ channelId }) => channelId === currentChannelId)
   ),
 );
+
+export const selectCurrentUsername = (state) => state.auth.username;
+export const selectLoadingStatus = (state) => state.auth.loadingStatus;
+export const selectAuthError = (state) => state.auth.authError;
+
+export const selectCurrentLng = (state) => state.userUi.currentLng;
+export const selectModalIsShown = (state) => state.userUi.modalIsShown;
