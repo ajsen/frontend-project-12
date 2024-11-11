@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { useModal } from '../../contexts/ModalProvider';
-import { selectModalIsShown } from '../../slices/userUiSlice';
+import { selectModalIsShown } from '../../slices/selectors';
 
 const Modal = () => {
   const { t } = useTranslation();
