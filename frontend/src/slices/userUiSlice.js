@@ -20,6 +20,3 @@ const userUiSlice = createSlice({
 export default userUiSlice.reducer;
 
 export const { setModalIsShown } = userUiSlice.actions;
-
-export const selectCurrentLng = (state) => state.userUi.currentLng;
-export const selectModalIsShown = (state) => state.userUi.modalIsShown;
