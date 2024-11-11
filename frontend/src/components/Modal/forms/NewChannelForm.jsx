@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { useCreateChannelMutation } from '../../../slices/channelsSlice';
-import { selectChannelNames } from '../../../slices/selectors';
-import { selectCurrentUsername } from '../../../slices/selectors';
+import { selectChannelNames, selectCurrentUsername } from '../../../slices/selectors';
 import { useModal } from '../../../contexts/ModalProvider';
 import { useProfanityFilter } from '../../../contexts/ProfanityFilterProvider';
 import { modalFormValidationSchema } from '../../../schemas';
