@@ -20,6 +20,7 @@ const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Channels'],
   endpoints: () => ({}),
 });
 
