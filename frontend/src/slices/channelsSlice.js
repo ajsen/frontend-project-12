@@ -28,8 +28,15 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
           await cacheDataLoaded;
           if (socket.connected) {
             socket.on('newChannel', (payload) => {
+              console.log(payload);
+              const state = getState();
+              const { username: currentUsername } = state.auth;
+
               updateCachedData((draft) => {
                 channelsAdapter.addOne(draft, payload);
+                if (payload.creator === currentUsername) {
+                  dispatch(setCurrentChannelId(payload.id));
+                }
               });
             });
             socket.on('removeChannel', ({ id }) => {

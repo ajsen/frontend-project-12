@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import { useCreateChannelMutation } from '../../../slices/channelsSlice';
 import { selectChannelNames } from '../../../slices/selectors';
+import { selectCurrentUsername } from '../../../slices/selectors';
 import { useModal } from '../../../contexts/ModalProvider';
 import { useProfanityFilter } from '../../../contexts/ProfanityFilterProvider';
 import { modalFormValidationSchema } from '../../../schemas';
@@ -19,6 +20,7 @@ const NewChannelForm = () => {
   }, []);
 
   const channelNames = useSelector(selectChannelNames);
+  const currentUsername = useSelector(selectCurrentUsername);
   const { removeProfanity } = useProfanityFilter();
   const { hideModal } = useModal();
   const { t } = useTranslation();
@@ -29,7 +31,7 @@ const NewChannelForm = () => {
     validationSchema: modalFormValidationSchema(channelNames),
     onSubmit: async ({ name }, { resetForm, setFieldError }) => {
       try {
-        await createChannel({ name: removeProfanity(name) }).unwrap();
+        await createChannel({ name: removeProfanity(name), creator: currentUsername }).unwrap();
         resetForm();
         hideModal();
         toast.success(t('toastMessages.channelCreated'));
