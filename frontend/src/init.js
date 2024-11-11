@@ -1,4 +1,8 @@
 import i18n from 'i18next';
+import {
+  Provider as RollbarProvider,
+  ErrorBoundary as RollbarErrorBoundary,
+} from '@rollbar/react';
 import { lazy, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -21,6 +25,11 @@ const defaultValidationMessages = {
   },
 };
 
+const rollbarConfig = {
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+  environment: 'production',
+};
+
 const init = async () => {
   const i18nInstance = i18n.createInstance();
   try {
@@ -39,11 +48,15 @@ const init = async () => {
 
     return (
       <Provider store={store}>
-        <I18nextProvider i18n={i18nInstance}>
-          <Suspense fallback={<LoadingSpinner />}>
-            <App />
-          </Suspense>
-        </I18nextProvider>
+        <RollbarProvider config={rollbarConfig}>
+          <RollbarErrorBoundary>
+            <I18nextProvider i18n={i18nInstance}>
+              <Suspense fallback={<LoadingSpinner />}>
+                <App />
+              </Suspense>
+            </I18nextProvider>
+          </RollbarErrorBoundary>
+        </RollbarProvider>
       </Provider >
     );
   } catch (error) {
