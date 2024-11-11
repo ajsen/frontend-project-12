@@ -1,14 +1,10 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  nanoid,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import apiPaths from '../api/apiPaths';
 import transformErrorResponse from '../utils/transformErrorResponse';
 import socket from '../utils/socket';
 import apiSlice from '../api/apiSlice';
-import { apiSliceWithMessages, messagesAdapter } from './messagesSlice';
+import { messagesAdapter } from './messagesSlice';
 
 const defaultChannelId = '1';
 
@@ -30,33 +26,35 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
       onCacheEntryAdded: async (_, { cacheDataLoaded, cacheEntryRemoved, dispatch, getState, updateCachedData }) => {
         try {
           await cacheDataLoaded;
-          socket.on('newChannel', (payload) => {
-            updateCachedData((draft) => {
-              channelsAdapter.addOne(draft, payload);
+          if (socket.connected) {
+            socket.on('newChannel', (payload) => {
+              updateCachedData((draft) => {
+                channelsAdapter.addOne(draft, payload);
+              });
             });
-          });
-          socket.on('removeChannel', ({ id }) => {
-            updateCachedData((draft) => {
-              channelsAdapter.removeOne(draft, id);
-              const state = getState();
-              const { currentChannelId } = state.channels;
-              if (currentChannelId === id) {
-                dispatch(setCurrentChannelId(defaultChannelId));
-              }
+            socket.on('removeChannel', ({ id }) => {
+              updateCachedData((draft) => {
+                channelsAdapter.removeOne(draft, id);
+                const state = getState();
+                const { currentChannelId } = state.channels;
+                if (currentChannelId === id) {
+                  dispatch(setCurrentChannelId(defaultChannelId));
+                }
+              });
+              updateCachedData((draft) => {
+                const messagesToRemoveIds = Object.values(draft.entities)
+                  .filter((message) => message.channelId === id)
+                  .map((message) => message.id);
+                messagesAdapter.removeMany(draft, messagesToRemoveIds);
+              });
             });
-            updateCachedData((draft) => {
-              const messagesToRemoveIds = Object.values(draft.entities)
-                .filter((message) => message.channelId === id)
-                .map((message) => message.id);
-              messagesAdapter.removeMany(draft, messagesToRemoveIds);
+            socket.on('renameChannel', ({ id, name }) => {
+              dispatch(apiSliceWithChannels.util.updateQueryData('getChannels', undefined, (draft) => {
+                const changes = { name };
+                channelsAdapter.updateOne(draft, { id, changes });
+              }));
             });
-          });
-          socket.on('renameChannel', ({ id, name }) => {
-            dispatch(apiSliceWithChannels.util.updateQueryData('getChannels', undefined, (draft) => {
-              const changes = { name };
-              channelsAdapter.updateOne(draft, { id, changes });
-            }));
-          });
+          }
         } catch (error) {
           console.error(error);
         }
@@ -73,24 +71,9 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
         method: 'post',
         data: channel,
       }),
+      invalidatesTags: ['Channel'],
       transformResponse: (response) => channelsAdapter.addOne(initialState, response),
       transformErrorResponse,
-      onQueryStarted: async (channel, { dispatch, queryFulfilled }) => {
-        const patchResult = dispatch(
-          apiSliceWithChannels.util.updateQueryData('createChannel', undefined, (draft) => {
-            const tempProps = { id: nanoid(), removable: true };
-            channelsAdapter.addOne(draft, { ...channel, ...tempProps });
-          }),
-        );
-
-        try {
-          const { data: { ids } } = await queryFulfilled;
-          const [newChannelId] = ids;
-          dispatch(setCurrentChannelId(newChannelId));
-        } catch {
-          patchResult.undo();
-        }
-      },
     }),
     updateChannel: builder.mutation({
       query: ({ id, name }) => ({
@@ -98,60 +81,18 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
         method: 'patch',
         data: { name },
       }),
+      invalidatesTags: ['Channel'],
       transformResponse: (response) => channelsAdapter.updateOne(initialState, response),
       transformErrorResponse,
-      onQueryStarted: async ({ id, name }, { dispatch, queryFulfilled }) => {
-        const patchResult = dispatch(
-          apiSliceWithChannels.util.updateQueryData('updateChannel', undefined, (draft) => {
-            channelsAdapter.updateOne(draft, {
-              id,
-              changes: { name },
-            });
-          }),
-        );
-
-        try {
-          await queryFulfilled;
-        } catch {
-          patchResult.undo();
-        }
-      },
     }),
     deleteChannel: builder.mutation({
       query: (channelId) => ({
         url: apiPaths.channel(channelId),
         method: 'delete',
       }),
+      invalidatesTags: ['Channel'],
       transformResponse: (response) => channelsAdapter.removeOne(initialState, response),
       transformErrorResponse,
-      onQueryStarted: async (channelId, { dispatch, queryFulfilled, getState }) => {
-        const patchChannelResult = dispatch(
-          apiSliceWithChannels.util.updateQueryData('deleteChannel', undefined, (draft) => {
-            channelsAdapter.removeOne(draft, channelId);
-          }),
-        );
-
-        const patchMessagesResult = dispatch(
-          apiSliceWithMessages.util.updateQueryData('getMessages', undefined, (draft) => {
-            const messagesToRemoveIds = Object.values(draft.entities)
-              .filter(message => message.channelId === channelId)
-              .map(message => message.id);
-            messagesAdapter.removeMany(draft, messagesToRemoveIds);
-          }),
-        );
-
-        try {
-          await queryFulfilled;
-          const state = getState();
-          const { currentChannelId } = state.channels;
-          if (currentChannelId === channelId) {
-            dispatch(setCurrentChannelId(defaultChannelId));
-          }
-        } catch {
-          patchChannelResult.undo();
-          patchMessagesResult.undo();
-        }
-      },
     }),
   }),
 });
