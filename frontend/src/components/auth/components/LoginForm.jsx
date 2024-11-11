@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Col, Form } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import { Button, Col, Form } from 'react-bootstrap';
 import ROUTE_PATHS from '../../../routes/routePaths';
 import { loginFormValidationSchema } from '../../../schemas';
 import { login } from '../../../slices/authSlice';
+import { selectAuthError } from '../../../slices/selectors';
 
 const LoginForm = () => {
   const usernameInputRef = useRef(null);
@@ -18,13 +19,11 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const authError = useSelector(selectAuthError);
+  const { t } = useTranslation();
 
   const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
+    initialValues: { username: '', password: '' },
     validationSchema: loginFormValidationSchema,
     onSubmit: async (values, { setErrors }) => {
       try {
@@ -32,18 +31,13 @@ const LoginForm = () => {
         navigate(ROUTE_PATHS.mainPage);
       } catch (error) {
         usernameInputRef.current?.select();
-        setErrors({
-          username: error,
-          password: error,
-        });
+        setErrors({ username: error, password: error });
       }
     },
   });
 
-  const { t } = useTranslation();
-
   return (
-    <Col as={Form} xs={12} md={6} onSubmit={formik.handleSubmit} noValidate>
+    <Col as={Form} xs={12} md={6} onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">
         {t('login')}
       </h1>
@@ -64,9 +58,6 @@ const LoginForm = () => {
           isInvalid={formik.touched.username && formik.errors.username}
           disabled={formik.isSubmitting}
         />
-        <Form.Control.Feedback type="invalid" tooltip>
-          {formik.errors.username && t(formik.errors.username)}
-        </Form.Control.Feedback>
       </Form.FloatingLabel>
       <Form.FloatingLabel
         label={t('password')}
@@ -85,7 +76,7 @@ const LoginForm = () => {
           disabled={formik.isSubmitting}
         />
         <Form.Control.Feedback type="invalid" tooltip>
-          {formik.errors.password && t(formik.errors.password)}
+          {authError && t(authError)}
         </Form.Control.Feedback>
       </Form.FloatingLabel>
       <Button
