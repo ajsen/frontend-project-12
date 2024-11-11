@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
 
+import handleNetworkError from '../utils/handleNetworkError';
 import apiPaths from '../api/apiPaths';
 import axiosInstance from '../utils/axiosInstance';
-import transformErrorResponse from '../utils/transformErrorResponse';
 import { startListening } from './listenerMiddleware';
 
-const handleNetworkError = (error, rejectWithValue) => {
+const handleError = (error, rejectWithValue) => {
   if (!isAxiosError(error)) {
     throw error;
   }
 
-  return rejectWithValue(transformErrorResponse({
-    status: error.response?.status ?? null,
+  return rejectWithValue(handleNetworkError({
     code: error.code ?? null,
+    status: error.status ?? null,
   }));
 };
 
@@ -24,7 +24,7 @@ export const signup = createAsyncThunk(
       const { data } = await axiosInstance.post(apiPaths.signup(), credentials);
       return data;
     } catch (error) {
-      return handleNetworkError(error, rejectWithValue);
+      return handleError(error, rejectWithValue);
     }
   },
 );
@@ -36,7 +36,7 @@ export const login = createAsyncThunk(
       const { data } = await axiosInstance.post(apiPaths.login(), credentials);
       return data;
     } catch (error) {
-      return handleNetworkError(error, rejectWithValue);
+      return handleError(error, rejectWithValue);
     }
   },
 );
@@ -93,10 +93,6 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 export const { logout } = authSlice.actions;
-
-export const selectCurrentUsername = (state) => state.auth.username;
-export const selectLoadingStatus = (state) => state.auth.loadingStatus;
-export const selectAuthError = (state) => state.auth.authError;
 
 startListening({
   actionCreator: logout,
