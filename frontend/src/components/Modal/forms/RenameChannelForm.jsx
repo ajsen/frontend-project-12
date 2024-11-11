@@ -21,17 +21,16 @@ const RenameChannelForm = () => {
   const channelWithActionId = useSelector(selectChannelWithActionId);
   const channelWithAction = useSelector((state) => selectChannelById(state, channelWithActionId));
   const channelNames = useSelector(selectChannelNames);
-
-  const [updateChannel] = useUpdateChannelMutation();
   const { hideModal } = useModal();
   const { removeProfanity } = useProfanityFilter();
+  const [updateChannel] = useUpdateChannelMutation();
 
   const formik = useFormik({
     initialValues: { name: channelWithAction.name },
     validationSchema: modalFormValidationSchema(channelNames),
-    onSubmit: ({ name }, { resetForm, setFieldError }) => {
+    onSubmit: async ({ name }, { resetForm, setFieldError }) => {
       try {
-        updateChannel({
+        await updateChannel({
           name: removeProfanity(name),
           id: channelWithAction.id,
         }).unwrap();
