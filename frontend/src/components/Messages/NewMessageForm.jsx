@@ -6,10 +6,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { arrowRightSquare as arrowRightSquareIcon } from '../../assets/icons';
-import { selectCurrentUsername } from '../../slices/authSlice';
 import { useCreateMessageMutation } from '../../slices/messagesSlice';
 import { useProfanityFilter } from '../../contexts/ProfanityFilterProvider';
-import { selectCurrentChannelId } from '../../slices/selectors';
+import { selectCurrentChannelId, selectCurrentUsername } from '../../slices/selectors';
 
 const NewMessageForm = () => {
   const bodyInputRef = useRef(null);
@@ -18,14 +17,11 @@ const NewMessageForm = () => {
     bodyInputRef.current?.focus();
   });
 
-  const [createMessage, {
-    isError,
-    isSuccess,
-  }] = useCreateMessageMutation();
-  const { removeProfanity } = useProfanityFilter();
-
   const currentChannelId = useSelector(selectCurrentChannelId);
   const currentUsername = useSelector(selectCurrentUsername);
+  const { removeProfanity } = useProfanityFilter();
+  const { t } = useTranslation();
+  const [createMessage] = useCreateMessageMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -34,29 +30,20 @@ const NewMessageForm = () => {
     validationSchema: object({
       body: string().trim().required(),
     }),
-    onSubmit: ({ body }) => {
-      const filteredBody = removeProfanity(body);
-      createMessage({
-        body: filteredBody,
-        channelId: currentChannelId,
-        username: currentUsername,
-      });
+    onSubmit: async ({ body }, { resetForm }) => {
+      try {
+        await createMessage({
+          body: removeProfanity(body),
+          channelId: currentChannelId,
+          username: currentUsername,
+        });
+        bodyInputRef.current?.focus();
+        resetForm();
+      } catch (error) {
+        bodyInputRef.current?.select();
+      }
     },
   });
-
-  useEffect(() => {
-    if (isError) {
-      bodyInputRef.current?.select();
-      formik.setSubmitting(false);
-    }
-    if (isSuccess) {
-      formik.resetForm();
-      formik.setSubmitting(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isError, isSuccess]);
-
-  const { t } = useTranslation();
 
   return (
     <Form
