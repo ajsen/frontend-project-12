@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { selectCurrentUsername } from '../slices/authSlice';
+import { selectCurrentUsername } from '../slices/selectors';
 import paths from './routePaths';
 
 const PrivateRoute = ({ children }) => {

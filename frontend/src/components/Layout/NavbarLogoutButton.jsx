@@ -2,17 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 
-import { logout, selectCurrentUsername } from '../../slices/authSlice';
+import { logout } from '../../slices/authSlice';
+import { selectCurrentUsername } from '../../slices/selectors';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();
+  const currentUsername = useSelector(selectCurrentUsername);
   const { t } = useTranslation();
 
   const handleLogout = () => {
     dispatch(logout());
   };
-
-  const currentUsername = useSelector(selectCurrentUsername);
 
   if (!currentUsername) {
     return null;
