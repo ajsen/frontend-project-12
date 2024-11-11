@@ -26,6 +26,7 @@ const ru = {
     common: {
       usernameRequiredLength: 'От 3 до 20 символов',
       passwordRequiredLength: 'Не менее 6 символов',
+      requiredLength: 'От 3 до 20 символов',
       passwordsMustBeEqual: 'Пароли должны совпадать',
     },
     addChannel: 'Добавить канал',
