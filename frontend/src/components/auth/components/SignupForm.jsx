@@ -18,6 +18,7 @@ const SignupForm = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +29,7 @@ const SignupForm = () => {
     validationSchema: signupFormValidationSchema,
     onSubmit: async (values, { setErrors }) => {
       try {
-        await dispatch(signup({ ...values })).unwrap();
+        await dispatch(signup(values)).unwrap();
         navigate(ROUTE_PATHS.mainPage);
       } catch (error) {
         usernameInputRef.current?.select();
@@ -41,10 +42,8 @@ const SignupForm = () => {
     },
   });
 
-  const { t } = useTranslation();
-
   return (
-    <Col as={Form} xs={12} md={6} onSubmit={formik.handleSubmit} noValidate>
+    <Col as={Form} xs={12} md={6} onSubmit={formik.handleSubmit}>
       <h1 className="text-center mb-4">
         {t('registration')}
       </h1>
