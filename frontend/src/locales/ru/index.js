@@ -14,6 +14,7 @@ const ru = {
       usernameTaken: 'Такой пользователь уже существует',
       connectionTimeout: 'Превышено время ожидания запроса',
       networkError: 'Ошибка сети',
+      internalServerError: 'Ошибка сервера',
       unknownError: 'Неизвестная ошибка',
     },
     toastMessages: {
