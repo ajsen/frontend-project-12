@@ -25,11 +25,13 @@ export const selectCurrentChannelId = (state) => state.channels.currentChannelId
 export const selectChannelWithActionId = (state) => state.channels.channelWithActionId;
 
 export const selectChannelNames = createSelector(
-  selectAllChannels, (channels) => channels.map(({ name }) => name),
+  selectAllChannels,
+  (channels) => channels.map(({ name }) => name),
 );
 
 const selectMessagesData = createSelector(
-  selectMessagesResult, (result) => result.data ?? messagesInitialState,
+  selectMessagesResult,
+  (result) => result.data ?? messagesInitialState,
 );
 
 export const {
