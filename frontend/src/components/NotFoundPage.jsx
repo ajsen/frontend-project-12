@@ -17,7 +17,7 @@ const NotFoundPage = () => {
         fluid
       />
       <h1 className="h4 text-muted">
-        t('pageNotFound')
+        {t('pageNotFound')}
       </h1>
       <p className="text-muted">
         {t('butYouCanFollow')}
