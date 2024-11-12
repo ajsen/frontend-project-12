@@ -12,6 +12,7 @@ const userUiSlice = createSlice({
   initialState,
   reducers: {
     setModalIsShown: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state.modalIsShown = action.payload;
     },
   },
