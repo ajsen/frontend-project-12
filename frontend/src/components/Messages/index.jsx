@@ -1,7 +1,7 @@
 import { Col } from 'react-bootstrap';
 
-import MessagesHeader from './MessagesHeader'
-import MessagesList from './MessagesList'
+import MessagesHeader from './MessagesHeader';
+import MessagesList from './MessagesList';
 import NewMessageForm from './NewMessageForm';
 
 const Messages = () => (
