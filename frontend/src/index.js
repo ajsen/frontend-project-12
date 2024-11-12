@@ -13,5 +13,5 @@ const root = createRoot(mountNode);
 root.render(
   <React.StrictMode>
     {await init()}
-  </React.StrictMode>
+  </React.StrictMode>,
 );
