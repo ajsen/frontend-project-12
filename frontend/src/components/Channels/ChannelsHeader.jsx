@@ -1,8 +1,8 @@
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
+import useModal from '../../hooks/useModal';
 import { plusSquare as plusSquareIcon } from '../../assets/icons';
-import { useModal } from '../../contexts/ModalProvider';
 
 const ChannelsHeader = () => {
   const { showModal } = useModal();
