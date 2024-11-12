@@ -23,7 +23,13 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
       }),
       transformResponse: (response) => channelsAdapter.setAll(initialState, response),
       transformErrorResponse,
-      onCacheEntryAdded: async (_, { cacheDataLoaded, cacheEntryRemoved, dispatch, getState, updateCachedData }) => {
+      onCacheEntryAdded: async (_, {
+        cacheDataLoaded,
+        cacheEntryRemoved,
+        dispatch,
+        getState,
+        updateCachedData,
+      }) => {
         try {
           await cacheDataLoaded;
           if (socket.connected) {
