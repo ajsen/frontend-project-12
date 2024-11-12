@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import useModal from '../../../hooks/useModal';
+import useProfanityFilter from '../../../hooks/useProfanityFilter';
 import { useCreateChannelMutation } from '../../../slices/channelsSlice';
 import { selectChannelNames, selectCurrentUsername } from '../../../slices/selectors';
-import { useModal } from '../../../contexts/ModalProvider';
-import { useProfanityFilter } from '../../../contexts/ProfanityFilterProvider';
 import { modalFormValidationSchema } from '../../../schemas';
 
 const NewChannelForm = () => {
