@@ -57,7 +57,7 @@ const init = async () => {
             </I18nextProvider>
           </RollbarErrorBoundary>
         </RollbarProvider>
-      </Provider >
+      </Provider>
     );
   } catch (error) {
     console.error(`Failed to initialize ${error}`);
