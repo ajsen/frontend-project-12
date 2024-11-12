@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import useModal from '../../../hooks/useModal';
+import useProfanityFilter from '../../../hooks/useProfanityFilter';
 import { modalFormValidationSchema } from '../../../schemas';
-import { useModal } from '../../../contexts/ModalProvider';
-import { useProfanityFilter } from '../../../contexts/ProfanityFilterProvider';
 import { selectChannelWithActionId, selectChannelNames, selectChannelById } from '../../../slices/selectors';
 import { useUpdateChannelMutation } from '../../../slices/channelsSlice';
 
