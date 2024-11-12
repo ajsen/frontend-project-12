@@ -19,7 +19,6 @@ const MessagesList = () => {
     }
   }, [isError, t]);
 
-
   const messages = useSelector(selectCurrentChannelMessages);
 
   useEffect(() => {
