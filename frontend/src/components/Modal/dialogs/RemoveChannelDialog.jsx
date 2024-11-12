@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-import { useModal } from '../../../contexts/ModalProvider';
+import useModal from '../../../hooks/useModal';
 import { useDeleteChannelMutation } from '../../../slices/channelsSlice';
 import { selectChannelWithActionId } from '../../../slices/selectors';
 
