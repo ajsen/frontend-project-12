@@ -9,7 +9,7 @@ const activeVariant = 'secondary';
 const useChannelButtonVariant = (channelId) => {
   const currentChannelId = useSelector(selectCurrentChannelId);
   const buttonVariant = useMemo(
-    () => currentChannelId === channelId ? activeVariant : defaultVariant,
+    () => (currentChannelId === channelId ? activeVariant : defaultVariant),
     [channelId, currentChannelId],
   );
   return buttonVariant;
