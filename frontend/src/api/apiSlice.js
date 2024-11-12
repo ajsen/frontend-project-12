@@ -14,10 +14,9 @@ const apiSlice = createApi({
     baseUrl: apiBaseUrl,
     prepareHeaders: (headers) => {
       const authHeader = getAuthHeader();
-      if (authHeader.Authorization) {
-        headers = { ...headers, ...authHeader };
-      }
-      return headers;
+      return (authHeader.Authorization)
+        ? { ...headers, ...authHeader }
+        : headers;
     },
   }),
   tagTypes: ['Channels'],
