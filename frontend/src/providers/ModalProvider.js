@@ -1,20 +1,15 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useMemo,
   useState,
 } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { ModalContext } from '../contexts';
+import { setModalIsShown } from '../slices/userUiSlice';
 import NewChannelForm from '../components/Modal/forms/NewChannelForm';
 import RenameChannelForm from '../components/Modal/forms/RenameChannelForm';
 import RemoveChannelDialog from '../components/Modal/dialogs/RemoveChannelDialog';
-import { setModalIsShown } from '../slices/userUiSlice';
-
-const ModalContext = createContext();
-
-export const useModal = () => useContext(ModalContext);
 
 const modalContentsByAction = {
   addChannel: <NewChannelForm />,
@@ -63,7 +58,7 @@ const ModalProvider = ({ children }) => {
     <ModalContext.Provider value={value}>
       {children}
     </ModalContext.Provider>
-  )
+  );
 };
 
 export default ModalProvider;
