@@ -2,7 +2,7 @@ import { Modal as BsModal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { useModal } from '../../contexts/ModalProvider';
+import useModal from '../../hooks/useModal';
 import { selectModalIsShown } from '../../slices/selectors';
 
 const Modal = () => {
