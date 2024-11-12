@@ -4,6 +4,7 @@ const AuthCard = ({ form, footer = null, ...restProps }) => (
   <Card className="shadow-sm">
     <Row as={Card.Body} className="p-5">
       <Col xs={12} md={6} className="d-flex mb-3 mb-md-0 align-items-center justify-content-center">
+{/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Image {...restProps} />
       </Col>
       {form}
