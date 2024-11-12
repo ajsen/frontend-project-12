@@ -11,8 +11,8 @@ const messagesByCode = {
   ECONNABORTED: 'feedbackMessages.connectionTimeout',
 };
 
-const handleNetworkError = ({ status, code }) => (status)
+const handleNetworkError = ({ status, code }) => ((status)
   ? messagesByStatus[status] ?? unknownError
-  : messagesByCode[code] ?? unknownError;
+  : messagesByCode[code] ?? unknownError);
 
 export default handleNetworkError;
