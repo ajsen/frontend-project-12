@@ -1,12 +1,9 @@
 import filter from 'leo-profanity';
-import { createContext, useCallback, useContext, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
+import { ProfanityFilterContext } from '../contexts';
 import { selectCurrentLng } from '../slices/selectors';
-
-const ProfanityFilterContext = createContext();
-
-export const useProfanityFilter = () => useContext(ProfanityFilterContext);
 
 const ProfanityFilterProvider = ({ children }) => {
   const currentLng = useSelector(selectCurrentLng);
