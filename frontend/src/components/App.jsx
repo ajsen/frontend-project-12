@@ -38,7 +38,7 @@ const App = () => (
         </Route>
       </Routes>
     </div>
-  </BrowserRouter >
+  </BrowserRouter>
 );
 
 export default App;
