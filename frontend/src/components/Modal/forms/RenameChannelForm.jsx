@@ -23,6 +23,7 @@ const RenameChannelForm = () => {
   const channelNames = useSelector(selectChannelNames);
   const { hideModal } = useModal();
   const { removeProfanity } = useProfanityFilter();
+  const { t } = useTranslation();
   const [updateChannel] = useUpdateChannelMutation();
 
   const formik = useFormik({
@@ -43,8 +44,6 @@ const RenameChannelForm = () => {
       }
     },
   });
-
-  const { t } = useTranslation();
 
   return (
     <Form noValidate onSubmit={formik.handleSubmit}>
