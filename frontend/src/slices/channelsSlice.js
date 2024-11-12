@@ -41,6 +41,7 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
               updateCachedData((draft) => {
                 channelsAdapter.addOne(draft, payload);
                 if (payload.creator === currentUsername) {
+                  // eslint-disable-next-line no-use-before-define
                   dispatch(setCurrentChannelId(payload.id));
                 }
               });
@@ -51,6 +52,7 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
                 const state = getState();
                 const { currentChannelId } = state.channels;
                 if (currentChannelId === id) {
+                  // eslint-disable-next-line no-use-before-define
                   dispatch(setCurrentChannelId(defaultChannelId));
                 }
               });
@@ -122,9 +124,11 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentChannelId: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state.currentChannelId = action.payload;
     },
     setChannelWithActionId: (state, action) => {
+      // eslint-disable-next-line no-param-reassign
       state.channelWithActionId = action.payload;
     },
   },
