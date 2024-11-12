@@ -30,6 +30,7 @@ const rollbarConfig = {
   environment: 'production',
 };
 
+// eslint-disable-next-line consistent-return
 const init = async () => {
   const i18nInstance = i18n.createInstance();
   try {
