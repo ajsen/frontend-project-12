@@ -10,9 +10,9 @@ import {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import useProfanityFilter from '../../hooks/useProfanityFilter';
 import { arrowRightSquare as arrowRightSquareIcon } from '../../assets/icons';
 import { useCreateMessageMutation } from '../../slices/messagesSlice';
-import { useProfanityFilter } from '../../contexts/ProfanityFilterProvider';
 import { selectCurrentChannelId, selectCurrentUsername } from '../../slices/selectors';
 
 const NewMessageForm = () => {
