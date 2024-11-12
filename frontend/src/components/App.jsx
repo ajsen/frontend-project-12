@@ -5,8 +5,8 @@ import ROUTE_PATHS from '../routes/routePaths';
 import PrivateRoute from '../routes/PrivateRoute';
 import Layout from './Layout';
 import Modal from './Modal';
-import ModalProvider from '../contexts/ModalProvider';
-import ProfanityFilterProvider from '../contexts/ProfanityFilterProvider';
+import ModalProvider from '../providers/ModalProvider';
+import ProfanityFilterProvider from '../providers/ProfanityFilterProvider';
 
 const MainPage = lazy(() => import('./MainPage'));
 const LoginPage = lazy(() => import('./auth/LoginPage'));
