@@ -6,9 +6,9 @@ import {
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import useModal from '../../hooks/useModal';
 import useButtonVariant from '../../hooks/useChannelButtonVariant';
 import useSwitchChannelHandler from '../../hooks/useSwitchChannelHandler';
-import { useModal } from '../../contexts/ModalProvider';
 import { setChannelWithActionId } from '../../slices/channelsSlice';
 
 const ChannelButtonWithAction = ({ id, name }) => {
