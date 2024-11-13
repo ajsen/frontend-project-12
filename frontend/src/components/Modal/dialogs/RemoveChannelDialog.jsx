@@ -14,9 +14,13 @@ const RemoveChannelDialog = () => {
   const [deleteChannel, { isLoading }] = useDeleteChannelMutation();
 
   const handleRemoveChannel = async () => {
-    await deleteChannel(channelWithActionId);
-    hideModal();
-    toast.success(t('toastMessages.channelRemoved'));
+    try {
+      await deleteChannel(channelWithActionId).unwrap();
+      hideModal();
+      toast.success(t('toastMessages.channelRemoved'));
+    } catch (error) {
+      toast.error(t('toastMessages.failedToRemoveChannel'));
+    }
   };
 
   return (
