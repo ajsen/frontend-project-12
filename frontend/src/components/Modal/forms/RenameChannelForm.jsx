@@ -43,6 +43,7 @@ const RenameChannelForm = () => {
       } catch (error) {
         setFieldError('body', error);
         nameInputRef.current?.select();
+        toast.error(t('toastMessages.failedToRenameChannel'));
       }
     },
   });
