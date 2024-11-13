@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Col, Form } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import { Button, Col, Form } from 'react-bootstrap';
 import ROUTE_PATHS from '../../../routes/routePaths';
 import { signupFormValidationSchema } from '../../../schemas';
 import { signup } from '../../../slices/authSlice';
+import { selectAuthError } from '../../../slices/selectors';
 
 const SignupForm = () => {
   const usernameInputRef = useRef(null);
@@ -19,6 +20,7 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const authError = useSelector(selectAuthError);
 
   const formik = useFormik({
     initialValues: {
@@ -64,9 +66,11 @@ const SignupForm = () => {
           isInvalid={formik.touched.username && formik.errors.username}
           disabled={formik.isSubmitting}
         />
-        <Form.Control.Feedback type="invalid" tooltip>
-          {formik.errors.username && t(formik.errors.username)}
-        </Form.Control.Feedback>
+        {!authError && (
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.username && t(formik.errors.username)}
+          </Form.Control.Feedback>
+        )}
       </Form.FloatingLabel>
       <Form.FloatingLabel
         label={t('password')}
@@ -84,9 +88,11 @@ const SignupForm = () => {
           isInvalid={formik.touched.password && formik.errors.password}
           disabled={formik.isSubmitting}
         />
-        <Form.Control.Feedback type="invalid" tooltip>
-          {formik.errors.password && t(formik.errors.password)}
-        </Form.Control.Feedback>
+        {!authError && (
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.password && t(formik.errors.password)}
+          </Form.Control.Feedback>
+        )}
       </Form.FloatingLabel>
       <Form.FloatingLabel
         controlId="confirmPassword"
