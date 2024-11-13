@@ -53,7 +53,7 @@ npm run start
 
 This project is a chat application that allows users to communicate in real time. The application is built using React, Redux, and Socket.io. The application is deployed on [Render](https://render.com/) and can be accessed at https://chat-u1du.onrender.com.
 
-![The site](/assets/images/screely-1730463286945.png)
+![The site](/demo/images/screely-1730463286945.png)
 
 #### Key features:
 
