@@ -30,9 +30,11 @@ const RenameChannelForm = () => {
     initialValues: { name: channelWithAction.name },
     validationSchema: modalFormValidationSchema(channelNames),
     onSubmit: async ({ name }, { resetForm, setFieldError }) => {
+      const sanitizedChannelName = removeProfanity(name.trim());
+
       try {
         await updateChannel({
-          name: removeProfanity(name),
+          name: sanitizedChannelName,
           id: channelWithAction.id,
         }).unwrap();
         resetForm();

@@ -29,8 +29,13 @@ const NewChannelForm = () => {
     initialValues: { name: '' },
     validationSchema: modalFormValidationSchema(channelNames),
     onSubmit: async ({ name }, { resetForm, setFieldError }) => {
+      const sanitizedChannelName = removeProfanity(name.trim());
+
       try {
-        await createChannel({ name: removeProfanity(name), creator: currentUsername }).unwrap();
+        await createChannel({
+          name: sanitizedChannelName,
+          creator: currentUsername,
+        }).unwrap();
         resetForm();
         hideModal();
         toast.success(t('toastMessages.channelCreated'));
