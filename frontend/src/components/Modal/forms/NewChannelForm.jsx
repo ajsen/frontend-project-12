@@ -42,6 +42,7 @@ const NewChannelForm = () => {
       } catch (error) {
         setFieldError('name', error);
         nameInputRef.current?.select();
+        toast.error(t('toastMessages.failedToAddChannel'));
       }
     },
   });
