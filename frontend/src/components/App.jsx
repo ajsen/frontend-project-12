@@ -4,9 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ROUTE_PATHS from '../routes/routePaths';
 import PrivateRoute from '../routes/PrivateRoute';
 import Layout from './Layout';
-import Modal from './Modal';
-import ModalProvider from '../providers/ModalProvider';
-import ProfanityFilterProvider from '../providers/ProfanityFilterProvider';
 
 const MainPage = lazy(() => import('./MainPage'));
 const LoginPage = lazy(() => import('./auth/LoginPage'));
@@ -17,24 +14,13 @@ const App = () => (
   <BrowserRouter>
     <div id="chat" className="h-100">
       <Routes>
-        <Route path={ROUTE_PATHS.mainPage} element={<Layout />}>
-          <Route
-            index
-            path={ROUTE_PATHS.mainPage}
-            element={(
-              <ProfanityFilterProvider>
-                <ModalProvider>
-                  <PrivateRoute>
-                    <Modal />
-                    <MainPage />
-                  </PrivateRoute>
-                </ModalProvider>
-              </ProfanityFilterProvider>
-            )}
-          />
-          <Route path={ROUTE_PATHS.loginPage} element={<LoginPage />} />
-          <Route path={ROUTE_PATHS.signupPage} element={<SignupPage />} />
-          <Route path={ROUTE_PATHS.notFoundPage} element={<NotFoundPage />} />
+        <Route path={ROUTE_PATHS.getMain()} element={<Layout />}>
+          <Route element={<PrivateRoute />}>
+            <Route path={ROUTE_PATHS.getMain()} element={<MainPage />} />
+          </Route>
+          <Route path={ROUTE_PATHS.getLogin()} element={<LoginPage />} />
+          <Route path={ROUTE_PATHS.getSignup()} element={<SignupPage />} />
+          <Route path={ROUTE_PATHS.getNotFound()} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>
