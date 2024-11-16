@@ -61,7 +61,8 @@ const init = async () => {
       </Provider>
     );
   } catch (error) {
-    console.error(`Failed to initialize ${error}`);
+    console.error('Initialization failed:', error);
+    return <ErrorPage errorMessage={error.message} />;
   }
 };
 
