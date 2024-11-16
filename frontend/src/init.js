@@ -8,15 +8,21 @@ import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { setLocale } from 'yup';
 
+import setupSocket from './utils/socket';
+import ModalProvider from './providers/ModalProvider';
+import ProfanityFilterProvider from './providers/ProfanityFilterProvider';
 import resources from './locales';
 import store from './slices';
 import LoadingSpinner from './components/common/LoadingSpinner';
+import ErrorPage from './components/ErrorPage';
 
 const App = lazy(() => import('./components/App'));
 
 const defaultLng = 'ru';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
+
+const serverUrl = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
 
 const defaultValidationMessages = {
   mixed: {
@@ -45,6 +51,9 @@ const init = async () => {
         debug: isDevelopment,
       });
 
+    const { runSocket, closeSocket } = setupSocket(serverUrl, store.getState, store.dispatch);
+    runSocket();
+
     setLocale(defaultValidationMessages);
 
     return (
@@ -53,7 +62,11 @@ const init = async () => {
           <RollbarErrorBoundary>
             <I18nextProvider i18n={i18nInstance}>
               <Suspense fallback={<LoadingSpinner />}>
-                <App />
+                <ModalProvider>
+                  <ProfanityFilterProvider>
+                    <App closeSocket={closeSocket} />
+                  </ProfanityFilterProvider>
+                </ModalProvider>
               </Suspense>
             </I18nextProvider>
           </RollbarErrorBoundary>
