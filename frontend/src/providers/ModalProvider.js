@@ -31,9 +31,9 @@ const ModalProvider = ({ children }) => {
 
   const showModal = useCallback((e) => {
     const { modalAction } = e.currentTarget.dataset;
+    dispatch(setModalIsShown(true));
     setModalTitle(modalTitlesByAction[modalAction]);
     setModalContent(modalContentsByAction[modalAction]);
-    dispatch(setModalIsShown(true));
   }, [dispatch]);
 
   const hideModal = useCallback(() => {
