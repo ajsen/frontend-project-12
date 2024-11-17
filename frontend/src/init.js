@@ -8,21 +8,19 @@ import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { setLocale } from 'yup';
 
-import setupSocket from './utils/socket';
 import ModalProvider from './providers/ModalProvider';
 import ProfanityFilterProvider from './providers/ProfanityFilterProvider';
-import resources from './locales';
-import store from './slices';
+import SocketProvider from './providers/SocketProvider';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorPage from './components/ErrorPage';
+import resources from './locales';
+import store from './slices';
 
 const App = lazy(() => import('./components/App'));
 
 const defaultLng = 'ru';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-
-const serverUrl = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
 
 const defaultValidationMessages = {
   mixed: {
@@ -36,8 +34,7 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-// eslint-disable-next-line consistent-return
-const init = async () => {
+const init = async (socket) => {
   const i18nInstance = i18n.createInstance();
   try {
     await i18nInstance
@@ -51,9 +48,6 @@ const init = async () => {
         debug: isDevelopment,
       });
 
-    const { runSocket, closeSocket } = setupSocket(serverUrl, store.getState, store.dispatch);
-    runSocket();
-
     setLocale(defaultValidationMessages);
 
     return (
@@ -64,7 +58,9 @@ const init = async () => {
               <Suspense fallback={<LoadingSpinner />}>
                 <ModalProvider>
                   <ProfanityFilterProvider>
-                    <App closeSocket={closeSocket} />
+                    <SocketProvider socket={socket}>
+                      <App />
+                    </SocketProvider>
                   </ProfanityFilterProvider>
                 </ModalProvider>
               </Suspense>
