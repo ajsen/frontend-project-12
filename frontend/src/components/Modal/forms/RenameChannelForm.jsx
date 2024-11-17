@@ -15,7 +15,9 @@ const RenameChannelForm = () => {
   const nameInputRef = useRef();
 
   useEffect(() => {
-    nameInputRef.current?.select();
+    if (nameInputRef.current) {
+      nameInputRef.current?.select();
+    }
   }, []);
 
   const channelWithActionId = useSelector(selectChannelWithActionId);

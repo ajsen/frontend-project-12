@@ -15,7 +15,9 @@ const NewChannelForm = () => {
   const nameInputRef = useRef();
 
   useEffect(() => {
-    nameInputRef.current?.focus();
+    if (nameInputRef.current) {
+      nameInputRef.current.focus();
+    }
   }, []);
 
   const channelNames = useSelector(selectChannelNames);

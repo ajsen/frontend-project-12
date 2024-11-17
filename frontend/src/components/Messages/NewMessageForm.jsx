@@ -19,7 +19,9 @@ const NewMessageForm = () => {
   const bodyInputRef = useRef(null);
 
   useEffect(() => {
-    bodyInputRef.current?.focus();
+    if (bodyInputRef.current) {
+      bodyInputRef.current.focus();
+    }
   });
 
   const currentChannelId = useSelector(selectCurrentChannelId);
