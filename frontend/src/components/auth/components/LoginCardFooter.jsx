@@ -13,7 +13,7 @@ const LoginCardFooter = () => {
         <span className="me-1">
           {`${t('noAccount')}?`}
         </span>
-        <Link to={ROUTE_PATHS.signupPage}>
+        <Link to={ROUTE_PATHS.getSignup()}>
           {t('registration')}
         </Link>
       </div>

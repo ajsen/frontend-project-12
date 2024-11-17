@@ -32,7 +32,7 @@ const SignupForm = () => {
     onSubmit: async (values, { setErrors }) => {
       try {
         await dispatch(signup(values)).unwrap();
-        navigate(ROUTE_PATHS.mainPage);
+        navigate(ROUTE_PATHS.getMain());
       } catch (error) {
         usernameInputRef.current?.select();
         setErrors({

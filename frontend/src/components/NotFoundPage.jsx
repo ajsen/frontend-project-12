@@ -21,7 +21,7 @@ const NotFoundPage = () => {
       </h1>
       <p className="text-muted">
         {t('butYouCanFollow')}
-        <Link to={ROUTE_PATHS.mainPage} className="ms-1">
+        <Link to={ROUTE_PATHS.getMain()} className="ms-1">
           {t('toMainPage')}
         </Link>
       </p>

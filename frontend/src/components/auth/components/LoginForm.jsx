@@ -28,7 +28,7 @@ const LoginForm = () => {
     onSubmit: async (values, { setErrors }) => {
       try {
         await dispatch(login(values)).unwrap();
-        navigate(ROUTE_PATHS.mainPage);
+        navigate(ROUTE_PATHS.getMain());
       } catch (error) {
         usernameInputRef.current?.select();
         setErrors({ username: error, password: error });

@@ -16,7 +16,7 @@ const NavigationBar = () => {
       expand="lg"
     >
       <Container>
-        <Navbar.Brand as={Link} to={ROUTE_PATHS.mainPage}>
+        <Navbar.Brand as={Link} to={ROUTE_PATHS.getMain()}>
           {t('hexletChat')}
         </Navbar.Brand>
         <LogoutButton />
