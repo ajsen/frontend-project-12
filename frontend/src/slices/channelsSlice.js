@@ -2,9 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import apiPaths from '../api/apiPaths';
 import transformErrorResponse from '../utils/transformErrorResponse';
-import socket from '../utils/socket';
 import apiSlice from '../api/apiSlice';
-import { messagesAdapter } from './messagesSlice';
 
 const defaultChannelId = '1';
 
@@ -23,62 +21,6 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
       }),
       transformResponse: (response) => channelsAdapter.setAll(initialState, response),
       transformErrorResponse,
-      onCacheEntryAdded: async (_, {
-        cacheDataLoaded,
-        cacheEntryRemoved,
-        dispatch,
-        getState,
-        updateCachedData,
-      }) => {
-        try {
-          await cacheDataLoaded;
-          if (socket.connected) {
-            socket.on('newChannel', (payload) => {
-              console.log(payload);
-              const state = getState();
-              const { username: currentUsername } = state.auth;
-
-              updateCachedData((draft) => {
-                channelsAdapter.addOne(draft, payload);
-                if (payload.creator === currentUsername) {
-                  // eslint-disable-next-line no-use-before-define
-                  dispatch(setCurrentChannelId(payload.id));
-                }
-              });
-            });
-            socket.on('removeChannel', ({ id }) => {
-              updateCachedData((draft) => {
-                channelsAdapter.removeOne(draft, id);
-                const state = getState();
-                const { currentChannelId } = state.channels;
-                if (currentChannelId === id) {
-                  // eslint-disable-next-line no-use-before-define
-                  dispatch(setCurrentChannelId(defaultChannelId));
-                }
-              });
-              updateCachedData((draft) => {
-                const messagesToRemoveIds = Object.values(draft.entities)
-                  .filter((message) => message.channelId === id)
-                  .map((message) => message.id);
-                messagesAdapter.removeMany(draft, messagesToRemoveIds);
-              });
-            });
-            socket.on('renameChannel', ({ id, name }) => {
-              dispatch(apiSliceWithChannels.util.updateQueryData('getChannels', undefined, (draft) => {
-                const changes = { name };
-                channelsAdapter.updateOne(draft, { id, changes });
-              }));
-            });
-          }
-        } catch (error) {
-          console.error(error);
-        }
-
-        await cacheEntryRemoved;
-        socket.off('newChannel');
-        socket.off('removeChannel');
-        socket.off('renameChannel');
-      },
     }),
     createChannel: builder.mutation({
       query: (channel) => ({
