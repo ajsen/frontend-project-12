@@ -1,8 +1,8 @@
 const ROUTE_PATHS = {
-  mainPage: '/',
-  loginPage: '/login',
-  signupPage: '/signup',
-  notFoundPage: '*',
+  getMain: () => '/',
+  getLogin: () => '/login',
+  getSignup: () => '/signup',
+  getNotFound: () => '*',
 };
 
 export default ROUTE_PATHS;
