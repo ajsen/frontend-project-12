@@ -17,14 +17,14 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getChannels: builder.query({
       query: () => ({
-        url: apiPaths.channels(),
+        url: apiPaths.getChannels(),
       }),
       transformResponse: (response) => channelsAdapter.setAll(initialState, response),
       transformErrorResponse,
     }),
     createChannel: builder.mutation({
       query: (channel) => ({
-        url: apiPaths.channels(),
+        url: apiPaths.getChannels(),
         method: 'post',
         data: channel,
       }),
@@ -34,7 +34,7 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
     }),
     updateChannel: builder.mutation({
       query: ({ id, name }) => ({
-        url: apiPaths.channel(id),
+        url: apiPaths.getChannel(id),
         method: 'patch',
         data: { name },
       }),
@@ -44,7 +44,7 @@ export const apiSliceWithChannels = apiSlice.injectEndpoints({
     }),
     deleteChannel: builder.mutation({
       query: (channelId) => ({
-        url: apiPaths.channel(channelId),
+        url: apiPaths.getChannel(channelId),
         method: 'delete',
       }),
       invalidatesTags: ['Channel'],

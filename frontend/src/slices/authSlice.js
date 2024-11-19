@@ -23,7 +23,7 @@ export const signup = createAsyncThunk(
   'auth/signup',
   async (credentials, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(apiPaths.signup(), credentials);
+      const { data } = await axiosInstance.post(apiPaths.getSignup(), credentials);
       return data;
     } catch (error) {
       return handleError(error, rejectWithValue);
@@ -35,7 +35,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post(apiPaths.login(), credentials);
+      const { data } = await axiosInstance.post(apiPaths.getLogin(), credentials);
       return data;
     } catch (error) {
       return handleError(error, rejectWithValue);
