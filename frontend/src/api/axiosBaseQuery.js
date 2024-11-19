@@ -1,7 +1,6 @@
 import { isAxiosError } from 'axios';
 
 import axiosInstance from '../utils/axiosInstance';
-import buildUrl from '../utils/urlBuilder';
 
 const defaultArgs = {
   baseUrl: '',
@@ -9,8 +8,8 @@ const defaultArgs = {
 
 const prepareRequestConfig = (baseUrl, requestConfig) => {
   const url = typeof requestConfig === 'string'
-    ? buildUrl(baseUrl, requestConfig)
-    : buildUrl(baseUrl, requestConfig.url);
+    ? [baseUrl, requestConfig].join('/')
+    : [baseUrl, requestConfig.url].join('/');
   return { ...requestConfig, url };
 };
 
