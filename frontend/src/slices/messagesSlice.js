@@ -11,7 +11,7 @@ export const initialState = messagesAdapter.getInitialState();
 export const apiSliceWithMessages = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getMessages: builder.query({
-      query: () => ({ url: apiPaths.messages() }),
+      query: () => apiPaths.messages(),
       transformResponse: (response) => messagesAdapter.setAll(initialState, response),
       transformErrorResponse,
     }),
