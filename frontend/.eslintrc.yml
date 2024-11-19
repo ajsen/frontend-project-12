@@ -12,6 +12,7 @@ extends:
   - plugin:react-hooks/recommended
 
 parserOptions:
+  requireConfigFile: false
   ecmaFeatures:
     jsx: true
   ecmaVersion: latest
