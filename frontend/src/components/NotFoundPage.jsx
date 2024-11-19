@@ -2,7 +2,7 @@ import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import ROUTE_PATHS from '../routes/routePaths';
+import routePaths from '../routes/routePaths';
 import image from '../assets/404.svg';
 
 const NotFoundPage = () => {
@@ -21,7 +21,7 @@ const NotFoundPage = () => {
       </h1>
       <p className="text-muted">
         {t('butYouCanFollow')}
-        <Link to={ROUTE_PATHS.getMain()} className="ms-1">
+        <Link to={routePaths.getMain()} className="ms-1">
           {t('toMainPage')}
         </Link>
       </p>

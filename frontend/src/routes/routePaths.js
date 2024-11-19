@@ -1,8 +1,8 @@
-const ROUTE_PATHS = {
+const routePaths = {
   getMain: () => '/',
   getLogin: () => '/login',
   getSignup: () => '/signup',
   getNotFound: () => '*',
 };
 
-export default ROUTE_PATHS;
+export default routePaths;

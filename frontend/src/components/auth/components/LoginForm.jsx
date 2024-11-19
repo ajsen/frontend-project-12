@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Col, Form } from 'react-bootstrap';
 
-import ROUTE_PATHS from '../../../routes/routePaths';
+import routePaths from '../../../routes/routePaths';
 import { loginFormValidationSchema } from '../../../schemas';
 import { login } from '../../../slices/authSlice';
 import { selectAuthError } from '../../../slices/selectors';
@@ -28,7 +28,7 @@ const LoginForm = () => {
     onSubmit: async (values, { setErrors }) => {
       try {
         await dispatch(login(values)).unwrap();
-        navigate(ROUTE_PATHS.getMain());
+        navigate(routePaths.getMain());
       } catch (error) {
         usernameInputRef.current?.select();
         setErrors({ username: error, password: error });

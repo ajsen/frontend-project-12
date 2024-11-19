@@ -5,8 +5,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import routePaths from './routePaths';
 import { selectCurrentUsername } from '../slices/selectors';
-import ROUTE_PATHS from './routePaths';
 
 const PrivateRoute = () => {
   const location = useLocation();
@@ -14,7 +14,7 @@ const PrivateRoute = () => {
 
   return currentUser
     ? <Outlet />
-    : <Navigate to={ROUTE_PATHS.getLogin()} state={{ from: location }} />;
+    : <Navigate to={routePaths.getLogin()} state={{ from: location }} />;
 };
 
 export default PrivateRoute;

@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import ROUTE_PATHS from '../routes/routePaths';
+import routePaths from '../routes/routePaths';
 import PrivateRoute from '../routes/PrivateRoute';
 import Layout from './Layout';
 import Modal from './Modal';
@@ -16,13 +16,13 @@ const App = () => (
   <BrowserRouter>
     <div id="chat" className="h-100">
       <Routes>
-        <Route path={ROUTE_PATHS.getMain()} element={<Layout />}>
+        <Route path={routePaths.getMain()} element={<Layout />}>
           <Route element={<PrivateRoute />}>
-            <Route path={ROUTE_PATHS.getMain()} element={<MainPage />} />
+            <Route path={routePaths.getMain()} element={<MainPage />} />
           </Route>
-          <Route path={ROUTE_PATHS.getLogin()} element={<LoginPage />} />
-          <Route path={ROUTE_PATHS.getSignup()} element={<SignupPage />} />
-          <Route path={ROUTE_PATHS.getNotFound()} element={<NotFoundPage />} />
+          <Route path={routePaths.getLogin()} element={<LoginPage />} />
+          <Route path={routePaths.getSignup()} element={<SignupPage />} />
+          <Route path={routePaths.getNotFound()} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>

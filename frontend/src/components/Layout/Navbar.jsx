@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container, Navbar } from 'react-bootstrap';
 
-import ROUTE_PATHS from '../../routes/routePaths';
+import routePaths from '../../routes/routePaths';
 import LogoutButton from './NavbarLogoutButton';
 
 const NavigationBar = () => {
@@ -16,7 +16,7 @@ const NavigationBar = () => {
       expand="lg"
     >
       <Container>
-        <Navbar.Brand as={Link} to={ROUTE_PATHS.getMain()}>
+        <Navbar.Brand as={Link} to={routePaths.getMain()}>
           {t('hexletChat')}
         </Navbar.Brand>
         <LogoutButton />

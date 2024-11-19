@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { CardFooter } from 'react-bootstrap';
 
-import ROUTE_PATHS from '../../../routes/routePaths';
+import routePaths from '../../../routes/routePaths';
 
 const LoginCardFooter = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ const LoginCardFooter = () => {
         <span className="me-1">
           {`${t('noAccount')}?`}
         </span>
-        <Link to={ROUTE_PATHS.getSignup()}>
+        <Link to={routePaths.getSignup()}>
           {t('registration')}
         </Link>
       </div>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Col, Form } from 'react-bootstrap';
 
-import ROUTE_PATHS from '../../../routes/routePaths';
+import routePaths from '../../../routes/routePaths';
 import { signupFormValidationSchema } from '../../../schemas';
 import { signup } from '../../../slices/authSlice';
 import { selectAuthError } from '../../../slices/selectors';
@@ -32,7 +32,7 @@ const SignupForm = () => {
     onSubmit: async (values, { setErrors }) => {
       try {
         await dispatch(signup(values)).unwrap();
-        navigate(ROUTE_PATHS.getMain());
+        navigate(routePaths.getMain());
       } catch (error) {
         usernameInputRef.current?.select();
         setErrors({
