@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import axiosBaseQuery from './axiosBaseQuery';
-import { apiBaseUrl } from './apiPaths';
+import { api } from './apiPaths';
 
 const getAuthHeader = () => {
   const userAuthData = JSON.parse(localStorage.getItem('userAuthData'));
@@ -11,7 +11,7 @@ const getAuthHeader = () => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: axiosBaseQuery({
-    baseUrl: apiBaseUrl,
+    baseUrl: api,
     prepareHeaders: (headers) => {
       const authHeader = getAuthHeader();
       return (authHeader.Authorization)
