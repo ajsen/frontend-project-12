@@ -1,14 +1,14 @@
 const separator = '/';
 const apiVersion = 'v1';
-export const apiBaseUrl = ['api', apiVersion].join('/');
+export const api = `api/${apiVersion}`;
 
 const apiPaths = {
-  login: () => [apiBaseUrl, 'login'].join(separator),
-  signup: () => [apiBaseUrl, 'signup'].join(separator),
-  channels: () => 'channels',
-  messages: () => 'messages',
-  channel: (id) => [apiPaths.channels(), id].join(separator),
-  message: (id) => [apiPaths.messages(), id].join(separator),
+  getLogin: () => [api, 'login'].join(separator),
+  getSignup: () => [api, 'signup'].join(separator),
+  getChannels: () => 'channels',
+  getMessages: () => 'messages',
+  getChannel: (id) => ['channels', id].join(separator),
+  getMessage: (id) => ['channels', id].join(separator),
 };
 
 export default apiPaths;
