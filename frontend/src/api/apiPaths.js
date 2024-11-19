@@ -1,14 +1,14 @@
-import buildUrl from '../utils/urlBuilder';
-
-export const apiBaseUrl = 'api/v1';
+const separator = '/';
+const apiVersion = 'v1';
+export const apiBaseUrl = ['api', apiVersion].join('/');
 
 const apiPaths = {
-  login: () => buildUrl(apiBaseUrl, 'login'),
-  signup: () => buildUrl(apiBaseUrl, 'signup'),
+  login: () => [apiBaseUrl, 'login'].join(separator),
+  signup: () => [apiBaseUrl, 'signup'].join(separator),
   channels: () => 'channels',
   messages: () => 'messages',
-  channel: (id) => buildUrl(apiPaths.channels(), id),
-  message: (id) => buildUrl(apiPaths.messages(), id),
+  channel: (id) => [apiPaths.channels(), id].join(separator),
+  message: (id) => [apiPaths.messages(), id].join(separator),
 };
 
 export default apiPaths;
