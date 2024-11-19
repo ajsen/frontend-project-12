@@ -1,9 +1,11 @@
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import ROUTE_PATHS from '../routes/routePaths';
 import PrivateRoute from '../routes/PrivateRoute';
 import Layout from './Layout';
+import Modal from './Modal';
 
 const MainPage = lazy(() => import('./MainPage'));
 const LoginPage = lazy(() => import('./auth/LoginPage'));
@@ -24,6 +26,8 @@ const App = () => (
         </Route>
       </Routes>
     </div>
+    <Modal />
+    <ToastContainer />
   </BrowserRouter>
 );
 
