@@ -11,9 +11,7 @@ import init from './init';
 const serverUrl = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
 
 const run = async () => {
-  const socket = io(serverUrl, {
-    autoConnect: false,
-  });
+  const socket = io(serverUrl);
   const mountNode = document.getElementById('root');
   const root = createRoot(mountNode);
   const app = await init(socket);
