@@ -4,7 +4,7 @@ import apiPaths from '../api/apiPaths';
 import transformErrorResponse from '../utils/transformErrorResponse';
 import apiSlice from '../api/apiSlice';
 
-const defaultChannelId = '1';
+export const defaultChannelId = '1';
 
 export const channelsAdapter = createEntityAdapter();
 
