@@ -1,17 +1,18 @@
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import useModal from '../../../hooks/useModal';
-import useProfanityFilter from '../../../hooks/useProfanityFilter';
-import { modalFormValidationSchema } from '../../../schemas';
-import { selectChannelWithActionId, selectChannelNames, selectChannelById } from '../../../slices/selectors';
-import { useUpdateChannelMutation } from '../../../slices/channelsSlice';
+import useProfanityFilter from '../../hooks/useProfanityFilter';
+import modalFormValidationSchema from './validationSchema';
+import { selectChannelWithActionId, selectChannelNames, selectChannelById } from '../../slices/selectors';
+import { useUpdateChannelMutation } from '../../slices/channelsSlice';
+import { hideModal } from '../../slices/userUiSlice';
 
 const RenameChannelForm = () => {
+  const dispatch = useDispatch();
   const nameInputRef = useRef();
 
   useEffect(() => {
@@ -20,10 +21,13 @@ const RenameChannelForm = () => {
     }
   }, []);
 
+  const handleHideModal = () => {
+    dispatch(hideModal());
+  };
+
   const channelWithActionId = useSelector(selectChannelWithActionId);
   const channelWithAction = useSelector((state) => selectChannelById(state, channelWithActionId));
   const channelNames = useSelector(selectChannelNames);
-  const { hideModal } = useModal();
   const { removeProfanity } = useProfanityFilter();
   const { t } = useTranslation();
   const [updateChannel] = useUpdateChannelMutation();
@@ -40,7 +44,7 @@ const RenameChannelForm = () => {
           id: channelWithAction.id,
         }).unwrap();
         resetForm();
-        hideModal();
+        handleHideModal();
         toast.success(t('toastMessages.channelRenamed'));
       } catch (error) {
         setFieldError('body', error);
@@ -73,7 +77,7 @@ const RenameChannelForm = () => {
       <div className="d-flex justify-content-end gap-2">
         <Button
           disabled={formik.isSubmitting}
-          onClick={hideModal}
+          onClick={handleHideModal}
           variant="secondary"
         >
           {t('cancel')}
