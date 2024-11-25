@@ -8,13 +8,12 @@ import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { setLocale } from 'yup';
 
-import ModalProvider from './providers/ModalProvider';
 import ProfanityFilterProvider from './providers/ProfanityFilterProvider';
-import SocketProvider from './providers/SocketProvider';
 import LoadingSpinner from './components/common/LoadingSpinner';
 import ErrorPage from './components/ErrorPage';
 import resources from './locales';
 import store from './slices';
+import createSocketListeners from './utils/createSocketListeners';
 
 const App = lazy(() => import('./components/App'));
 
@@ -50,19 +49,21 @@ const init = async (socket) => {
 
     setLocale(defaultValidationMessages);
 
+    const socketListeners = createSocketListeners(socket);
+
+    socket.on('connect', () => {
+      socketListeners.start();
+    });
+
     return (
       <Provider store={store}>
         <RollbarProvider config={rollbarConfig}>
           <RollbarErrorBoundary>
             <I18nextProvider i18n={i18nInstance}>
               <Suspense fallback={<LoadingSpinner />}>
-                <ModalProvider>
-                  <ProfanityFilterProvider>
-                    <SocketProvider socket={socket}>
-                      <App />
-                    </SocketProvider>
-                  </ProfanityFilterProvider>
-                </ModalProvider>
+                <ProfanityFilterProvider>
+                  <App />
+                </ProfanityFilterProvider>
               </Suspense>
             </I18nextProvider>
           </RollbarErrorBoundary>
