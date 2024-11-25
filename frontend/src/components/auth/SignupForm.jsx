@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button, Col, Form } from 'react-bootstrap';
 
-import routePaths from '../../../routes/routePaths';
-import { signupFormValidationSchema } from '../../../schemas';
-import { signup } from '../../../slices/authSlice';
-import { selectAuthError } from '../../../slices/selectors';
+import routePaths from '../../routes/routePaths';
+import { signupFormValidationSchema } from './authValidationSchemas';
+import { signup } from '../../slices/authSlice';
+import { selectAuthError } from '../../slices/selectors';
 
 const SignupForm = () => {
   const usernameInputRef = useRef(null);
