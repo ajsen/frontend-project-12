@@ -13,11 +13,13 @@ const prepareRequestConfig = (baseUrl, requestConfig) => {
   return { ...requestConfig, url };
 };
 
-const axiosBaseQuery = ({ baseUrl, prepareHeaders } = defaultArgs) => async (requestConfig) => {
+const axiosBaseQuery = (
+  { baseUrl, prepareHeaders } = defaultArgs,
+) => async (requestConfig, api) => {
   try {
     const preparedRequestConfig = prepareRequestConfig(baseUrl, requestConfig);
     const preparedHeaders = prepareHeaders
-      ? prepareHeaders(preparedRequestConfig.headers || {})
+      ? prepareHeaders(preparedRequestConfig.headers || {}, api)
       : preparedRequestConfig.headers;
 
     const result = await axiosInstance({ ...preparedRequestConfig, headers: preparedHeaders });
