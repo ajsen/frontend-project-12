@@ -1,17 +1,18 @@
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import useModal from '../../../hooks/useModal';
-import useProfanityFilter from '../../../hooks/useProfanityFilter';
-import { useCreateChannelMutation } from '../../../slices/channelsSlice';
-import { selectChannelNames, selectCurrentUsername } from '../../../slices/selectors';
-import { modalFormValidationSchema } from '../../../schemas';
+import useProfanityFilter from '../../hooks/useProfanityFilter';
+import { useCreateChannelMutation } from '../../slices/channelsSlice';
+import { hideModal } from '../../slices/userUiSlice';
+import { selectChannelNames, selectCurrentUsername } from '../../slices/selectors';
+import modalFormValidationSchema from './validationSchema';
 
 const NewChannelForm = () => {
+  const dispatch = useDispatch();
   const nameInputRef = useRef();
 
   useEffect(() => {
@@ -23,9 +24,12 @@ const NewChannelForm = () => {
   const channelNames = useSelector(selectChannelNames);
   const currentUsername = useSelector(selectCurrentUsername);
   const { removeProfanity } = useProfanityFilter();
-  const { hideModal } = useModal();
   const { t } = useTranslation();
   const [createChannel] = useCreateChannelMutation();
+
+  const handleHideModal = () => {
+    dispatch(hideModal());
+  };
 
   const formik = useFormik({
     initialValues: { name: '' },
@@ -39,7 +43,7 @@ const NewChannelForm = () => {
           creator: currentUsername,
         }).unwrap();
         resetForm();
-        hideModal();
+        handleHideModal();
         toast.success(t('toastMessages.channelCreated'));
       } catch (error) {
         setFieldError('name', error);
@@ -72,7 +76,7 @@ const NewChannelForm = () => {
       <div className="d-flex justify-content-end gap-2">
         <Button
           disabled={formik.isSubmitting}
-          onClick={hideModal}
+          onClick={handleHideModal}
           variant="secondary"
         >
           {t('cancel')}
