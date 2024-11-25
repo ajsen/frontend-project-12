@@ -52,3 +52,4 @@ export const selectAuthError = (state) => state.auth.authError;
 
 export const selectCurrentLng = (state) => state.userUi.currentLng;
 export const selectModalIsShown = (state) => state.userUi.modalIsShown;
+export const selectModalType = (state) => state.userUi.modalType;
