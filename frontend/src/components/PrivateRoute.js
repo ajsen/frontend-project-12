@@ -5,7 +5,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import routePaths from './routePaths';
+import routePaths from '../routes/routePaths';
 import { selectCurrentUsername } from '../slices/selectors';
 
 const PrivateRoute = () => {
