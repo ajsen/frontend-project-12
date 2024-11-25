@@ -6,17 +6,22 @@ import {
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import useModal from '../../hooks/useModal';
-import useButtonVariant from '../../hooks/useChannelButtonVariant';
 import useSwitchChannelHandler from '../../hooks/useSwitchChannelHandler';
+import { showModal } from '../../slices/userUiSlice';
 import { setChannelWithActionId } from '../../slices/channelsSlice';
 
-const ChannelButtonWithAction = ({ id, name }) => {
+const activeVariant = 'secondary';
+const defaultVariant = 'light';
+
+export const ChannelButtonWithAction = ({ id, name, isActive }) => {
   const dispatch = useDispatch();
   const handleSwitchChannel = useSwitchChannelHandler(id);
-  const buttonVariant = useButtonVariant(id);
-  const { showModal } = useModal();
   const { t } = useTranslation();
+  const buttonVariant = isActive ? activeVariant : defaultVariant;
+
+  const handleShowModal = (modalType) => () => {
+    dispatch(showModal({ isShown: true, modalType }));
+  };
 
   return (
     <Dropdown
@@ -42,18 +47,10 @@ const ChannelButtonWithAction = ({ id, name }) => {
         </span>
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item
-          onClick={showModal}
-          href="#"
-          data-modal-action="removeChannel"
-        >
+        <Dropdown.Item onClick={handleShowModal('removeChannel')} href="#">
           {t('remove')}
         </Dropdown.Item>
-        <Dropdown.Item
-          onClick={showModal}
-          href="#"
-          data-modal-action="renameChannel"
-        >
+        <Dropdown.Item onClick={handleShowModal('renameChannel')} href="#">
           {t('rename')}
         </Dropdown.Item>
       </Dropdown.Menu>
@@ -61,4 +58,17 @@ const ChannelButtonWithAction = ({ id, name }) => {
   );
 };
 
-export default ChannelButtonWithAction;
+export const ChannelButton = ({ id, name, isActive }) => {
+  const handleSwitchChannel = useSwitchChannelHandler(id);
+
+  return (
+    <Button
+      variant={isActive ? activeVariant : defaultVariant}
+      onClick={handleSwitchChannel}
+      className="w-100 rounded-0 text-start"
+    >
+      <span className="me-1">#</span>
+      {name}
+    </Button>
+  );
+};
