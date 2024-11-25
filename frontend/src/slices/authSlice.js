@@ -49,6 +49,7 @@ const isLoggedIn = Boolean(userAuthData?.username && userAuthData?.token);
 
 const initialState = {
   username: isLoggedIn ? userAuthData.username : null,
+  token: isLoggedIn ? userAuthData.token : null,
   loadingStatus: 'idle',
   authError: null,
 };
@@ -59,6 +60,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.username = null;
+      state.token = null;
       state.loadingStatus = 'idle';
       state.authError = null;
     },
@@ -69,8 +71,9 @@ const authSlice = createSlice({
         state.authError = null;
         state.loadingStatus = 'loading';
       })
-      .addCase(login.fulfilled, (state, { payload: { username } }) => {
+      .addCase(login.fulfilled, (state, { payload: { username, token } }) => {
         state.username = username;
+        state.token = token;
         state.loadingStatus = 'loaded';
       })
       .addCase(login.rejected, (state, { payload }) => {
@@ -81,8 +84,9 @@ const authSlice = createSlice({
         state.authError = null;
         state.loadingStatus = 'loading';
       })
-      .addCase(signup.fulfilled, (state, { payload: { username } }) => {
+      .addCase(signup.fulfilled, (state, { payload: { username, token } }) => {
         state.username = username;
+        state.token = token;
         state.loadingStatus = 'loaded';
       })
       .addCase(signup.rejected, (state, { payload }) => {
