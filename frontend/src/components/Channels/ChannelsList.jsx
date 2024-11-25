@@ -4,10 +4,9 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Nav } from 'react-bootstrap';
 
-import ChannelButton from './ChannelButton';
-import ChannelButtonWithAction from './ChannelButtonWithAction';
+import { ChannelButton, ChannelButtonWithAction } from './buttons';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
-import { selectAllChannels } from '../../slices/selectors';
+import { selectAllChannels, selectCurrentChannelId } from '../../slices/selectors';
 
 const ChannelsList = () => {
   const { t } = useTranslation();
@@ -21,18 +20,22 @@ const ChannelsList = () => {
   }, [isError, t]);
 
   const channels = useSelector(selectAllChannels);
+  const currentChannelId = useSelector(selectCurrentChannelId);
 
-  const renderedChannels = channels.map(({ id, name, removable }) => (
-    <Nav.Item
-      key={id}
-      as="li"
-      className="w-100"
-    >
-      {removable
-        ? <ChannelButtonWithAction id={id} name={name} />
-        : <ChannelButton id={id} name={name} />}
-    </Nav.Item>
-  ));
+  const renderedChannels = channels.map(({ id, name, removable }) => {
+    const isActive = id === currentChannelId;
+    return (
+      <Nav.Item
+        key={id}
+        as="li"
+        className="w-100"
+      >
+        {removable
+          ? <ChannelButtonWithAction id={id} name={name} isActive={isActive} />
+          : <ChannelButton id={id} name={name} isActive={isActive} />}
+      </Nav.Item>
+    );
+  });
 
   return (
     <Nav
