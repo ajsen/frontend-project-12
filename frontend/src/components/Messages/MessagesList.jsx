@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-import Message from './MessagesListItem';
 import { useGetMessagesQuery } from '../../slices/messagesSlice';
 import { selectCurrentChannelMessages } from '../../slices/selectors';
 
@@ -28,7 +27,11 @@ const MessagesList = () => {
   return (
     <div id="messages-box" className="chat-messages overflow-auto px-5">
       {messages?.length > 0 && messages.map(({ id, username, body }) => (
-        <Message key={id} username={username} body={body} />
+        <div key={id} className="text-break mb-2">
+          <b>{username}</b>
+          {': '}
+          {body}
+        </div>
       ))}
       <div ref={listBottomRef} />
     </div>
