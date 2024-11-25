@@ -1,22 +1,26 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
-import useModal from '../../../hooks/useModal';
-import { useDeleteChannelMutation } from '../../../slices/channelsSlice';
-import { selectChannelWithActionId } from '../../../slices/selectors';
+import { hideModal } from '../../slices/userUiSlice';
+import { useDeleteChannelMutation } from '../../slices/channelsSlice';
+import { selectChannelWithActionId } from '../../slices/selectors';
 
 const RemoveChannelDialog = () => {
+  const dispatch = useDispatch();
   const channelWithActionId = useSelector(selectChannelWithActionId);
-  const { hideModal } = useModal();
   const { t } = useTranslation();
   const [deleteChannel, { isLoading }] = useDeleteChannelMutation();
+
+  const handleHideModal = () => {
+    dispatch(hideModal());
+  };
 
   const handleRemoveChannel = async () => {
     try {
       await deleteChannel(channelWithActionId).unwrap();
-      hideModal();
+      handleHideModal();
       toast.success(t('toastMessages.channelRemoved'));
     } catch (error) {
       toast.error(t('toastMessages.failedToRemoveChannel'));
@@ -31,7 +35,7 @@ const RemoveChannelDialog = () => {
           className="me-2"
           variant="secondary"
           disabled={isLoading}
-          onClick={hideModal}
+          onClick={handleHideModal}
         >
           {t('cancel')}
         </Button>
