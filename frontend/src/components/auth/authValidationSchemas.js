@@ -25,12 +25,3 @@ export const signupFormValidationSchema = object({
       test: (value, context) => value === context.parent.password,
     }),
 });
-
-export const modalFormValidationSchema = (channelNames) => object({
-  name: string()
-    .trim()
-    .required()
-    .min(3, 'common.requiredLength')
-    .max(20, 'common.requiredLength')
-    .notOneOf(channelNames),
-});
