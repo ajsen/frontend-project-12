@@ -1,11 +1,12 @@
+import { useDispatch } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import useModal from '../../hooks/useModal';
+import { showModal } from '../../slices/userUiSlice';
 import { plusSquare as plusSquareIcon } from '../../assets/icons';
 
 const ChannelsHeader = () => {
-  const { showModal } = useModal();
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   return (
@@ -16,7 +17,10 @@ const ChannelsHeader = () => {
         as={Button}
         variant="link"
         data-modal-action="addChannel"
-        onClick={showModal}
+        onClick={() => dispatch(showModal({
+          isShown: true,
+          modalType: 'addChannel',
+        }))}
         vertical
       >
         {plusSquareIcon}
