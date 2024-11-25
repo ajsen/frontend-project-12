@@ -13,11 +13,12 @@ const createSocketListeners = (socket) => {
   const onNewChannel = (payload) => {
     dispatch(apiSliceWithChannels.util.updateQueryData('getChannels', undefined, (draft) => {
       channelsAdapter.addOne(draft, payload);
-      const { auth: { currentUsername } } = getState();
-      if (payload.creator === currentUsername) {
-        dispatch(setCurrentChannelId(payload.id));
-      }
     }));
+
+    const { auth: { username: currentUsername } } = getState();
+    if (payload.creator === currentUsername) {
+      dispatch(setCurrentChannelId(payload.id));
+    }
   };
 
   const onRemoveChannel = ({ id }) => {
