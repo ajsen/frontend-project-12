@@ -3,13 +3,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import routePaths from '../routes/routePaths';
-import PrivateRoute from '../routes/PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 import Layout from './Layout';
 import Modal from './Modal';
 
 const MainPage = lazy(() => import('./MainPage'));
-const LoginPage = lazy(() => import('./auth/LoginPage'));
-const SignupPage = lazy(() => import('./auth/SignupPage'));
+const AuthPage = lazy(() => import('./auth/AuthPage'));
 const NotFoundPage = lazy(() => import('./NotFoundPage'));
 
 const App = () => (
@@ -20,8 +19,8 @@ const App = () => (
           <Route element={<PrivateRoute />}>
             <Route path={routePaths.getMain()} element={<MainPage />} />
           </Route>
-          <Route path={routePaths.getLogin()} element={<LoginPage />} />
-          <Route path={routePaths.getSignup()} element={<SignupPage />} />
+          <Route path={routePaths.getLogin()} element={<AuthPage authType="login" />} />
+          <Route path={routePaths.getSignup()} element={<AuthPage authType="signup" />} />
           <Route path={routePaths.getNotFound()} element={<NotFoundPage />} />
         </Route>
       </Routes>
