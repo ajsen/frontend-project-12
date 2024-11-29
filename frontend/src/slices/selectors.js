@@ -24,6 +24,11 @@ export const {
 export const selectCurrentChannelId = (state) => state.channels.currentChannelId;
 export const selectChannelWithActionId = (state) => state.channels.channelWithActionId;
 
+export const selectCurrentChannel = createSelector(
+  [selectAllChannels, selectCurrentChannelId],
+  (channels, currentChannelId) => channels.find(({ id }) => id === currentChannelId),
+);
+
 export const selectChannelNames = createSelector(
   selectAllChannels,
   (channels) => channels.map(({ name }) => name),

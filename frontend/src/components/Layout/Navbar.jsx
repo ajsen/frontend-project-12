@@ -1,28 +1,28 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Navbar as BsNavbar } from 'react-bootstrap';
 
 import routePaths from '../../routes/routePaths';
-import LogoutButton from './NavbarLogoutButton';
+import NavbarLogoutButton from './NavbarLogoutButton';
 
-const NavigationBar = () => {
+const Navbar = () => {
   const { t } = useTranslation();
 
   return (
-    <Navbar
+    <BsNavbar
       className="shadow-sm"
       bg="white"
       variant="light"
       expand="lg"
     >
       <Container>
-        <Navbar.Brand as={Link} to={routePaths.getMain()}>
+        <BsNavbar.Brand as={Link} to={routePaths.getMain()}>
           {t('hexletChat')}
-        </Navbar.Brand>
-        <LogoutButton />
+        </BsNavbar.Brand>
+        <NavbarLogoutButton />
       </Container>
-    </Navbar>
+    </BsNavbar>
   );
 };
 
-export default NavigationBar;
+export default Navbar;

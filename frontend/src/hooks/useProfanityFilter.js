@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { ProfanityFilterContext } from '../contexts';
+import { ProfanityFilterContext } from '../providers/ProfanityFilterProvider';
 
 const useProfanityFilter = () => useContext(ProfanityFilterContext);
 

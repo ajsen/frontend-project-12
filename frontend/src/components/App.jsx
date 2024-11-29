@@ -15,7 +15,7 @@ const App = () => (
   <BrowserRouter>
     <div id="chat" className="h-100">
       <Routes>
-        <Route path={routePaths.getMain()} element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route element={<PrivateRoute />}>
             <Route path={routePaths.getMain()} element={<MainPage />} />
           </Route>

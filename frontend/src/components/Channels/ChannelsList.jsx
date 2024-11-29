@@ -4,7 +4,8 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Nav } from 'react-bootstrap';
 
-import { ChannelButton, ChannelButtonWithAction } from './buttons';
+import ChannelButton from './ChannelButton';
+import ChannelButtonWithAction from './ChannelButtonWithAction';
 import { useGetChannelsQuery } from '../../slices/channelsSlice';
 import { selectAllChannels, selectCurrentChannelId } from '../../slices/selectors';
 

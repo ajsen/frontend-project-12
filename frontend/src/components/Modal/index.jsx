@@ -1,16 +1,20 @@
+import { useMemo } from 'react';
 import { Modal as BsModal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-import useModalContent from '../../hooks/useModalContent';
 import { hideModal } from '../../slices/userUiSlice';
 import { selectModalIsShown, selectModalType } from '../../slices/selectors';
+import modals from './modals';
 
 const Modal = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const modalIsShown = useSelector(selectModalIsShown);
   const modalType = useSelector(selectModalType);
-  const { title, body } = useModalContent(modalType);
+
+  const { title, body } = useMemo(() => modals[modalType] || {}, [modalType]);
 
   const handleHideModal = () => {
     dispatch(hideModal());
@@ -24,7 +28,7 @@ const Modal = () => {
     >
       <BsModal.Header onHide={handleHideModal} closeButton>
         <BsModal.Title>
-          {title}
+          {t(title)}
         </BsModal.Title>
       </BsModal.Header>
       <BsModal.Body>

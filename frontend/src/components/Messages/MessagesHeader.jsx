@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { selectCurrentChannelId, selectChannelById, selectCurrentChannelMessages } from '../../slices/selectors';
+import { selectCurrentChannel, selectCurrentChannelMessages } from '../../slices/selectors';
 
 const MessagesHeader = () => {
-  const currentChannelId = useSelector(selectCurrentChannelId);
-  const currentChannel = useSelector((state) => selectChannelById(state, currentChannelId));
+  const currentChannel = useSelector(selectCurrentChannel);
   const currentChannelMessages = useSelector(selectCurrentChannelMessages);
   const { t } = useTranslation();
 

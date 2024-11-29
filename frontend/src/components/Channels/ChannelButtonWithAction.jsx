@@ -9,11 +9,9 @@ import { useTranslation } from 'react-i18next';
 import useSwitchChannelHandler from '../../hooks/useSwitchChannelHandler';
 import { showModal } from '../../slices/userUiSlice';
 import { setChannelWithActionId } from '../../slices/channelsSlice';
+import { activeVariant, defaultVariant } from './constants';
 
-const activeVariant = 'secondary';
-const defaultVariant = 'light';
-
-export const ChannelButtonWithAction = ({ id, name, isActive }) => {
+const ChannelButtonWithAction = ({ id, name, isActive }) => {
   const dispatch = useDispatch();
   const handleSwitchChannel = useSwitchChannelHandler(id);
   const { t } = useTranslation();
@@ -58,17 +56,4 @@ export const ChannelButtonWithAction = ({ id, name, isActive }) => {
   );
 };
 
-export const ChannelButton = ({ id, name, isActive }) => {
-  const handleSwitchChannel = useSwitchChannelHandler(id);
-
-  return (
-    <Button
-      variant={isActive ? activeVariant : defaultVariant}
-      onClick={handleSwitchChannel}
-      className="w-100 rounded-0 text-start"
-    >
-      <span className="me-1">#</span>
-      {name}
-    </Button>
-  );
-};
+export default ChannelButtonWithAction;

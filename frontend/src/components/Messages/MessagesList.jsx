@@ -7,7 +7,7 @@ import { useGetMessagesQuery } from '../../slices/messagesSlice';
 import { selectCurrentChannelMessages } from '../../slices/selectors';
 
 const MessagesList = () => {
-  const listBottomRef = useRef();
+  const messagesListRef = useRef();
   const { t } = useTranslation();
 
   const { isError } = useGetMessagesQuery();
@@ -21,11 +21,20 @@ const MessagesList = () => {
   const messages = useSelector(selectCurrentChannelMessages);
 
   useEffect(() => {
-    listBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 0) {
+      messagesListRef?.current?.lastChild.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
+    }
   }, [messages]);
 
   return (
-    <div id="messages-box" className="chat-messages overflow-auto px-5">
+    <div
+      id="messages-box"
+      className="chat-messages overflow-auto px-5"
+      ref={messagesListRef}
+    >
       {messages?.length > 0 && messages.map(({ id, username, body }) => (
         <div key={id} className="text-break mb-2">
           <b>{username}</b>
@@ -33,7 +42,6 @@ const MessagesList = () => {
           {body}
         </div>
       ))}
-      <div ref={listBottomRef} />
     </div>
   );
 };

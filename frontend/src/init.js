@@ -7,6 +7,7 @@ import { lazy, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { setLocale } from 'yup';
+import { io } from 'socket.io-client';
 
 import ProfanityFilterProvider from './providers/ProfanityFilterProvider';
 import LoadingSpinner from './components/common/LoadingSpinner';
@@ -21,6 +22,8 @@ const defaultLng = 'ru';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
+const serverUrl = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
+
 const defaultValidationMessages = {
   mixed: {
     required: 'feedbackMessages.requiredField',
@@ -33,7 +36,8 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-const init = async (socket) => {
+const init = async () => {
+  const socket = io(serverUrl);
   const i18nInstance = i18n.createInstance();
   try {
     await i18nInstance
