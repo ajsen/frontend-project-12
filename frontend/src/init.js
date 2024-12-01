@@ -22,7 +22,7 @@ const defaultLng = 'ru';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
-const serverUrl = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
+const serverUrl = !isDevelopment ? undefined : 'http://localhost:3000';
 
 const defaultValidationMessages = {
   mixed: {
